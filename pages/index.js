@@ -25,7 +25,7 @@ export default function Home() {
           <Col>
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="formFile" className="mb-3">
-                <Form.Label>Enter your video here</Form.Label>
+                <Form.Label>Enter your image/video here</Form.Label>
                 <Form.Control type="file" onChange={handleFileChange} />
               </Form.Group>
               <Button type="submit">Submit</Button>
