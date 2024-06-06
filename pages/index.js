@@ -15,8 +15,6 @@ export default function Home() {
   async function handleSubmit(e) {
     e.preventDefault();
     setData(await submitVideo(video));
-    setData(Object.entries(data).sort((a, b) => b[1] - a[1]))
-
   }
 
   return (
@@ -43,12 +41,15 @@ export default function Home() {
             </tr>
           </thead>
           <tbody>
-            {data && Object.keys(data.result).map((key) => (
-                    <tr key={key}>
-                      <td>{key}</td>
-                      <td>{data.result[key]}</td>
-                    </tr>
-                  ))}
+            {data &&
+              Object.entries(data.result)
+                .sort((a, b) => b[1] - a[1])  // Sort the entries by value in descending order
+                .map(([key, value]) => (
+                  <tr key={key}>
+                    <td>{key}</td>
+                    <td>{value}</td>
+                  </tr>
+              ))}
           </tbody>
         </Table>
       </Container>
