@@ -18,8 +18,6 @@ export default function Home() {
 
   }
 
-  console.log(data.result.alp)
-
   return (
     <>
       <br />
@@ -44,13 +42,13 @@ export default function Home() {
             </tr>
           </thead>
           <tbody>
-            {Object.keys(data.result).map((key) => (
+            {data && Object.keys(data.result).map((key) => (
                     <tr key={key}>
                       <td>{key}</td>
                       <td>{data.result[key]}</td>
                     </tr>
                   ))}
-            </tbody>
+          </tbody>
         </Table>
       </Container>
     </>
