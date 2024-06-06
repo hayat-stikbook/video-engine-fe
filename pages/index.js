@@ -15,6 +15,7 @@ export default function Home() {
   async function handleSubmit(e) {
     e.preventDefault();
     setData(await submitVideo(video));
+    setData(Object.entries(data).sort((a, b) => b[1] - a[1]))
 
   }
 
