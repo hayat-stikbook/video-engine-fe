@@ -1,5 +1,5 @@
-import { Container, Row, Col, Form, Button, Table } from "react-bootstrap";
-import { useState, useMemo } from "react";
+import { Container, Row, Col, Form, Button, Table, Alert } from "react-bootstrap";
+import { useState, useMemo, useEffect } from "react";
 import { submitVideo } from "@/lib/actions";
 import { useAtom } from "jotai";
 import { resultAtom } from "@/store";
@@ -7,6 +7,8 @@ import { resultAtom } from "@/store";
 export default function Home() {
   const [video, setVideo] = useState(null);
   const [data, setData] = useAtom(resultAtom)
+  const [warning, setWarning] = useState("")
+  const [success, setSuccess] = useState("")
   const [sortConfig, setSortConfig] = useState({ key: "Object", direction: "ascending" });
 
 
@@ -16,9 +18,27 @@ export default function Home() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setData(await submitVideo(video));
-    console.log(data)
+
+    setWarning("")
+    setSuccess("")
+
+    setData(await submitVideo((video)))
   }
+
+  useEffect(() => {
+    if (!data) {
+      setWarning("Error: Internal server error.")
+      setSuccess("")
+    }
+    else if (data.error) {
+      setWarning(`Error: ${data.error}`)
+      setSuccess("")
+    }
+    else {
+      setWarning("")
+      setSuccess("Processed successfully.")
+    }
+  }, [data]);
 
   const handleSort = (column) => {
     let direction = "ascending";
@@ -77,6 +97,19 @@ export default function Home() {
               </Form.Group>
               <Button type="submit">Submit</Button>
             </Form>
+            {warning && <>
+              <br/>
+              <Alert variant="danger">
+                {warning}
+              </Alert>
+            </>}
+
+            {success && <>
+              <br/>
+              <Alert variant="success">
+                {success}
+              </Alert>
+            </>}
           </Col>
         </Row>
         <br />
